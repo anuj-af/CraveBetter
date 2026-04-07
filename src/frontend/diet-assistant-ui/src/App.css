@@ -1,0 +1,254 @@
+:root {
+  --bg: #f5efe3;
+  --bg-2: #efe3ce;
+  --text: #2f2419;
+  --card: #fff9ef;
+  --accent: #d95f18;
+  --accent-soft: #f6cda9;
+  --ok: #2e7d32;
+  --warn: #b45309;
+  --risk: #b91c1c;
+  --line: #e6d7bf;
+}
+
+.app-shell {
+  min-height: 100vh;
+  color: var(--text);
+  position: relative;
+  padding: 1.25rem;
+}
+
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 10% 10%, #fbd8af 0, transparent 45%),
+    radial-gradient(circle at 90% 20%, #f7c6bc 0, transparent 40%),
+    linear-gradient(180deg, var(--bg), var(--bg-2));
+  z-index: -1;
+}
+
+.top-nav {
+  max-width: 1020px;
+  margin: 0 auto 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.brand-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.top-nav nav {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.top-nav button {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  padding: 0.5rem 0.95rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease;
+}
+
+.top-nav button:hover {
+  transform: translateY(-1px);
+}
+
+.top-nav button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+main {
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 1.2rem;
+  box-shadow: 0 20px 45px rgba(52, 38, 20, 0.08);
+}
+
+.panel-home {
+  padding: 1.6rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  margin-bottom: 0.2rem;
+}
+
+.hero p,
+.panel-subtitle {
+  color: #6e5b47;
+  margin-bottom: 1rem;
+}
+
+.decision-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.decision-form input,
+.decision-form select {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  padding: 0.75rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.inline-fields {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.decision-form button {
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #dd6622, #d5483f);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.82rem;
+  cursor: pointer;
+}
+
+.decision-form button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.result-card {
+  margin-top: 1rem;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background: #fff;
+}
+
+.result-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.7rem;
+}
+
+.score {
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.tone-excellent .score {
+  color: var(--ok);
+}
+
+.tone-good .score {
+  color: #3f8f2a;
+}
+
+.tone-warning .score {
+  color: var(--warn);
+}
+
+.tone-risk .score {
+  color: var(--risk);
+}
+
+.error-text,
+.empty-state {
+  margin-top: 0.8rem;
+  color: #9f261a;
+}
+
+.meal-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.meal-list li {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 0.32rem 0.7rem;
+  color: #fff;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.pill.healthy {
+  background: #2f8d2f;
+}
+
+.pill.unhealthy {
+  background: #c24d2c;
+}
+
+.plan-grid,
+.insight-cards {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.plan-grid article,
+.insight-cards article {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  padding: 0.9rem;
+}
+
+.big-number {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+@media (max-width: 720px) {
+  .inline-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .top-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .meal-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
