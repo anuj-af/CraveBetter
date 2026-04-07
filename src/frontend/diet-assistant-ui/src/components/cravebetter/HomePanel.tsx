@@ -104,10 +104,10 @@ export default function HomePanel({ onMealLogged }: HomePanelProps): React.React
         </button>
       </form>
 
-      {error ? <p className="error-text">{error}</p> : null}
+      {error ? <p className="error-text" role="alert">{error}</p> : null}
 
       {result ? (
-        <article className={`result-card tone-${scoreTone(result.score)}`}>
+        <article className={`result-card tone-${scoreTone(result.score)}`} aria-live="polite">
           <header>
             <h2>Decision Result</h2>
             <span className="score">{result.score}/10</span>

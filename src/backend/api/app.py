@@ -11,6 +11,12 @@ from flask_cors import CORS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+try:
+    # Optional GCP integration for Cloud Run deployments.
+    from google.cloud import logging as cloud_logging  # type: ignore
+except Exception:  # pragma: no cover
+    cloud_logging = None
+
 LLM_API_URL = os.getenv("LLM_API_URL", "http://127.0.0.1:1234/v1/chat/completions")
 LLM_MODEL = os.getenv("LLM_MODEL", "phi-3.1-mini-128k-instruct")
 USE_MOCK_LLM = os.getenv("USE_MOCK_LLM", "true").lower() == "true"
@@ -26,6 +32,32 @@ CORS(
         }
     },
 )
+
+
+def _setup_cloud_logging() -> None:
+    if os.getenv("K_SERVICE") and cloud_logging is not None:
+        try:
+            client = cloud_logging.Client()
+            client.setup_logging()
+            logger.info("Google Cloud Logging enabled")
+        except Exception as exc:  # pragma: no cover
+            logger.warning("Cloud logging init failed: %s", exc)
+
+
+_setup_cloud_logging()
+
+
+def _validate_input(food: str, goal: str, time_of_day: str) -> Dict[str, str]:
+    errors: Dict[str, str] = {}
+    if not food:
+        errors["food"] = "food is required"
+    if len(food) > 180:
+        errors["food"] = "food must be <= 180 characters"
+    if len(goal) > 80:
+        errors["goal"] = "goal must be <= 80 characters"
+    if len(time_of_day) > 50:
+        errors["time"] = "time must be <= 50 characters"
+    return errors
 
 
 def _heuristic_response(food: str, goal: str, time_of_day: str) -> Dict[str, Any]:
@@ -179,8 +211,9 @@ def analyze_food() -> Any:
     goal = str(payload.get("goal", "General health")).strip() or "General health"
     time_of_day = str(payload.get("time", "Anytime")).strip() or "Anytime"
 
-    if not food:
-        return jsonify({"error": "food is required"}), 400
+    errors = _validate_input(food=food, goal=goal, time_of_day=time_of_day)
+    if errors:
+        return jsonify({"error": "validation_failed", "details": errors}), 400
 
     if USE_MOCK_LLM:
         result = _heuristic_response(food=food, goal=goal, time_of_day=time_of_day)

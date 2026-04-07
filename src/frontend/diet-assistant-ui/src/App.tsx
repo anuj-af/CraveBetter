@@ -26,23 +26,23 @@ function App(): React.ReactElement {
     <div className="app-shell">
       <div className="bg-layer" aria-hidden="true" />
 
-      <header className="top-nav">
+      <header className="top-nav" role="banner">
         <div className="brand">
           <span className="brand-dot" />
           <strong>CraveBetter</strong>
         </div>
 
-        <nav>
-          <button className={activeTab === 'home' ? 'active' : ''} onClick={() => setActiveTab('home')}>
+        <nav aria-label="Primary navigation">
+          <button aria-label="Go to Home" className={activeTab === 'home' ? 'active' : ''} onClick={() => setActiveTab('home')}>
             Home
           </button>
-          <button className={activeTab === 'track' ? 'active' : ''} onClick={() => setActiveTab('track')}>
+          <button aria-label="Go to Track" className={activeTab === 'track' ? 'active' : ''} onClick={() => setActiveTab('track')}>
             Track
           </button>
-          <button className={activeTab === 'plan' ? 'active' : ''} onClick={() => setActiveTab('plan')}>
+          <button aria-label="Go to Plan" className={activeTab === 'plan' ? 'active' : ''} onClick={() => setActiveTab('plan')}>
             Plan
           </button>
-          <button className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>
+          <button aria-label="Go to Dashboard" className={activeTab === 'dashboard' ? 'active' : ''} onClick={() => setActiveTab('dashboard')}>
             Dashboard
           </button>
         </nav>
